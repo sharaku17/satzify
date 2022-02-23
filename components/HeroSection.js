@@ -14,7 +14,7 @@ const HeroSection = () => {
               </h1>
             </div>
             <p className=" pt-10 px-4 max-w-lg text-lg md:text-xl text-white tracking-wide leading-tight md:text-gray-300">
-              Satzify's AI-Technologie unterstützt dich beim verfassen jeglicher
+              Satzifys AI-Technologie unterstützt dich beim verfassen jeglicher
               Texte
             </p>
             <a href="#paraphrase">

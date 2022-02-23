@@ -86,6 +86,7 @@ const DropdownButton = ({
                   {filteredData.map((language) => {
                     return (
                       <div
+                        key={language.language}
                         onClick={() => {
                           setWordEntered(language.language);
                           setTranslatorInput(language.language);

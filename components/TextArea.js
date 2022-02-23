@@ -10,7 +10,7 @@ const TextArea = ({
 }) => {
   return (
     <div
-      class={`paraphraser-input relative ${
+      className={`paraphraser-input relative ${
         noBorder ? "" : "border-r border-gray-200"
       } ${width} h-full`}
     >
@@ -18,14 +18,14 @@ const TextArea = ({
         title="Clear Input"
         data-tooltip="Clear all Input"
         data-tooltip-target="tooltip-default"
-        class="text-red-300 absolute right-1 bottom-1 hover:text-red-500 cursor-pointer"
+        className="text-red-300 absolute right-1 bottom-1 hover:text-red-500 cursor-pointer"
         onClick={() => {
           setInputValue("");
           setCharCount(0);
         }}
       >
         <svg
-          class="w-8 h-8 mx-2 fill-current"
+          className="w-8 h-8 mx-2 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -41,7 +41,7 @@ const TextArea = ({
         value={inputValue}
         onChange={handleChange}
         maxLength="250"
-        class="resize-none text-body  outline-none focus-none p-6  h-full w-full"
+        className="resize-none text-body  outline-none focus-none p-6  h-full w-full"
         name="paraphraseInput"
         id="paraphraseInput"
       ></textarea>
