@@ -91,7 +91,7 @@ const ParaphraseSection = () => {
       {
         body: JSON.stringify(data),
         headers: {
-          Authorization: `Bearer ${process.env.A21_API}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_A21_API}`,
           "Content-Type": "application/json",
         },
         method: "POST",
