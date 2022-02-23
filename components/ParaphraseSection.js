@@ -57,7 +57,9 @@ const ParaphraseSection = () => {
   const translate = require("deepl");
   const Diff = require("diff");
 
-  const API_TOKEN = "YOUR_API_TOKEN";
+  const HUGGING_FACE_API = process.env.HUGGING_FACE_API;
+  const A21_API = process.env.A21_API;
+  const DEEPL_API = process.env.DEEPL_API;
 
   const LANGUAGES = [
     { language: "German", lang: "de" },
@@ -72,7 +74,7 @@ const ParaphraseSection = () => {
     const res = await fetch(
       "https://api-inference.huggingface.co/models/tuner007/pegasus_paraphrase",
       {
-        headers: { Authorization: `Bearer ${API_TOKEN}` },
+        headers: { Authorization: `Bearer ${HUGGING_FACE_API}` },
         method: "POST",
         body: JSON.stringify(data),
       }
@@ -89,12 +91,13 @@ const ParaphraseSection = () => {
       {
         body: JSON.stringify(data),
         headers: {
-          Authorization: "Bearer YOUR_API_TOKEN",
+          Authorization: `Bearer ${process.env.A21_API}`,
           "Content-Type": "application/json",
         },
         method: "POST",
       }
     );
+    console.log(process.env.NEXT_PUBLIC_A21_API);
     const result = await res.json();
     console.log(result);
     if (result.completions.length > 1) {
@@ -128,7 +131,7 @@ const ParaphraseSection = () => {
         free_api: true,
         text: data,
         target_lang: out_lang.toUpperCase(),
-        auth_key: "YOUR_API_TOKEN",
+        auth_key: DEEPL_API,
       });
 
       return res.data.translations[0].text;
@@ -138,7 +141,7 @@ const ParaphraseSection = () => {
         text: data,
         source_lang: in_lang.toUpperCase(),
         target_lang: out_lang.toUpperCase(),
-        auth_key: "YOUR_API_TOKEN",
+        auth_key: DEEPL_API,
       });
 
       return res.data.translations[0].text;
@@ -274,18 +277,18 @@ const ParaphraseSection = () => {
 
   return (
     <div className="">
-      <div class="container  pt-32 flex flex-col items-center mx-auto">
-        <h1 class="max-w-2xl text-center text-body md:text-6xl  text-3xl font-bold">
-          Probiere aus zu was Satz<span class="text-light_red">ify</span> in der
-          Lage ist{" "}
+      <div className="container  pt-32 flex flex-col items-center mx-auto">
+        <h1 className="max-w-2xl text-center text-body md:text-6xl  text-3xl font-bold">
+          Probiere aus zu was Satz<span className="text-light_red">ify</span> in
+          der Lage ist{" "}
         </h1>
-        <div class="paraphraser-box md:w-2/3 w-[95%] mt-20  bg-white shadow-lg rounded-2xl  h-[50vh]">
-          <div class="paraphraser-tool-box">
-            <div class="h-16 mx-4   border-b border-gray-200">
+        <div className="paraphraser-box md:w-2/3 w-[95%] mt-20  bg-white shadow-lg rounded-2xl  h-[50vh]">
+          <div className="paraphraser-tool-box">
+            <div className="h-16 mx-4   border-b border-gray-200">
               <nav className=" h-full">
                 <ul className="h-full ">
                   <li
-                    class={
+                    className={
                       "paraphrase" === selectedTab
                         ? "selected text-light_red md:text-lg text-sm font-semibold transition-all ease-linear "
                         : "text-body  md:text-lg text-md  font-semibold transition-all ease-linear "
@@ -298,7 +301,7 @@ const ParaphraseSection = () => {
                       <motion.div className="underline" layoutId="underline" />
                     ) : null}
                     <svg
-                      class=" w-6 h-6 mr-3"
+                      className=" w-6 h-6 mr-3"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentcolor"
@@ -309,7 +312,7 @@ const ParaphraseSection = () => {
                     Paraphrase
                   </li>
                   <li
-                    class={
+                    className={
                       "correct" === selectedTab
                         ? "selected text-light_red md:text-lg text-md  font-semibold transition-all ease-linear"
                         : "text-body md:text-lg text-md  font-semibold transition-all ease-linear"
@@ -320,7 +323,7 @@ const ParaphraseSection = () => {
                       <motion.div className="underline" layoutId="underline" />
                     ) : null}
                     <svg
-                      class="w-6 h-6 mr-3"
+                      className="w-6 h-6 mr-3"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentcolor"
@@ -331,7 +334,7 @@ const ParaphraseSection = () => {
                     Correct
                   </li>
                   <li
-                    class={
+                    className={
                       "shorten" === selectedTab
                         ? "selected text-light_red md:text-lg text-md  font-semibold transition-all ease-linear"
                         : "text-body md:text-lg text-md  font-semibold transition-all ease-linear"
@@ -342,7 +345,7 @@ const ParaphraseSection = () => {
                       <motion.div className="underline" layoutId="underline" />
                     ) : null}
                     <svg
-                      class="w-6 h-6 mr-3"
+                      className="w-6 h-6 mr-3"
                       xmlns="http://www.w3.org/2000/svg"
                       enable-background="new 0 0 24 24"
                       viewBox="0 0 24 24"
@@ -362,7 +365,7 @@ const ParaphraseSection = () => {
                     Shorten
                   </li>
                   <li
-                    class={
+                    className={
                       "translate" === selectedTab
                         ? "selected text-light_red md:text-lg text-md  font-semibold transition-all ease-linear"
                         : "text-body md:text-lg text-md  font-semibold transition-all ease-linear"
@@ -387,16 +390,16 @@ const ParaphraseSection = () => {
               </nav>
             </div>
           </div>
-          <div class="flex flex-col h-2/3">
+          <div className="flex flex-col h-2/3">
             <AnimatePresence>
               {selectedTab === "translate" && (
                 <motion.div
                   initial={{ x: -30, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   exit={{ x: -30, opacity: 0 }}
-                  class="w-full flex text-body"
+                  className="w-full flex text-body"
                 >
-                  <div class="flex my-2 w-1/2 justify-end">
+                  <div className="flex my-2 w-1/2 justify-end">
                     <DropdownButton
                       placeholder="Auto"
                       setTranslatorInput={setTranslatorInputLanguage}
@@ -404,7 +407,7 @@ const ParaphraseSection = () => {
                       languages={source_languages}
                     ></DropdownButton>
                   </div>
-                  <div class="flex my-2 w-1/2 justify-end">
+                  <div className="flex my-2 w-1/2 justify-end">
                     <DropdownButton
                       placeholder="German"
                       setTranslatorInput={setTranslatorOutputLanguage}
@@ -416,7 +419,7 @@ const ParaphraseSection = () => {
               )}
             </AnimatePresence>
 
-            <div class="flex h-full">
+            <div className="flex h-full">
               {selectedTab === "paraphrase" ? (
                 <>
                   <TextArea
@@ -426,22 +429,22 @@ const ParaphraseSection = () => {
                     inputValue={inputValue}
                     handleChange={handleChange}
                   ></TextArea>
-                  <div class="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
-                    <div class=" h-full relative">
+                  <div className="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
+                    <div className=" h-full relative">
                       <div
-                        class="resize-none text-body  block absolute z-20 overflow-auto font-semibold outline-none  m-0 focus-none  h-full w-full"
+                        className="resize-none text-body  block absolute z-20 overflow-auto font-semibold outline-none  m-0 focus-none  h-full w-full"
                         name="paraphraseInput"
                         id="paraphraseInput"
                       >
-                        <ul class=" flex flex-col w-full m-0 p-0">
+                        <ul className=" flex flex-col w-full m-0 p-0">
                           {outputHighlightingParaphrase.map((data, index) => {
                             return (
                               <li
                                 key={data.rawText}
-                                class=" group flex justify-between items-center border-b hover:bg-gray-200 border-gray-300 w-full m-0 p-6"
+                                className=" group flex justify-between items-center border-b hover:bg-gray-200 border-gray-300 w-full m-0 p-6"
                               >
                                 <div>
-                                  <span class=" text-right text-sm md:text-lg">
+                                  <span className=" text-right text-sm md:text-lg">
                                     {" "}
                                     {parse(data.text)}
                                   </span>
@@ -451,7 +454,7 @@ const ParaphraseSection = () => {
                                     title={tooltipTitle}
                                     data-tooltip="Clear all Input"
                                     data-tooltip-target="tooltip-default"
-                                    class=" w-7 h-7 border-none focus-none   text-gray-300 "
+                                    className=" w-7 h-7 border-none focus-none   text-gray-300 "
                                     onClick={() => {
                                       copyToClipboard(data.rawText);
                                       let copy =
@@ -465,7 +468,7 @@ const ParaphraseSection = () => {
                                         initial={{ x: -30, opacity: 0 }}
                                         animate={{ x: 0, opacity: 1 }}
                                         exit={{ x: -30, opacity: 0 }}
-                                        class=" group-hover:flex flex-col hidden   items-center"
+                                        className=" group-hover:flex flex-col hidden   items-center"
                                       >
                                         <svg
                                           className="text-light_red "
@@ -476,12 +479,12 @@ const ParaphraseSection = () => {
                                           <path d="M0 0h24v24H0z" fill="none" />
                                           <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
                                         </svg>
-                                        <span class=" text-red-600 rounded-xl bg-red-200 px-2 text-xs">
+                                        <span className=" text-red-600 rounded-xl bg-red-200 px-2 text-xs">
                                           Copied!
                                         </span>
                                       </motion.div>
                                     ) : (
-                                      <div class=" group-hover:flex  hidden  ">
+                                      <div className=" group-hover:flex  hidden  ">
                                         <svg
                                           className="text-gray-300 hover:text-light_red "
                                           xmlns="http://www.w3.org/2000/svg"
@@ -512,18 +515,18 @@ const ParaphraseSection = () => {
                     inputValue={inputValue}
                     handleChange={handleChange}
                   ></TextArea>
-                  <div class="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
-                    <div class=" h-full relative">
+                  <div className="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
+                    <div className=" h-full relative">
                       {paraphraseLoading && (
-                        <div class="absolute w-5/6 h-3/4 flex flex-col  left-2 top-2">
-                          <div class=" w-3/4 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
+                        <div className="absolute w-5/6 h-3/4 flex flex-col  left-2 top-2">
+                          <div className=" w-3/4 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
 
-                          <div class=" w-1/2 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
-                          <div class=" w-full h-4 animate-pulse mb-3 bg-gray-200 rounded-2xl"></div>
+                          <div className=" w-1/2 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
+                          <div className=" w-full h-4 animate-pulse mb-3 bg-gray-200 rounded-2xl"></div>
                         </div>
                       )}
-                      <div class="backdrop absolute  z-10 p-6 overflow-auto">
-                        <div class="highlights text-transparent font-semibold  whitespace-pre-wrap ">
+                      <div className="backdrop absolute  z-10 p-6 overflow-auto">
+                        <div className="highlights text-transparent font-semibold  whitespace-pre-wrap ">
                           {parse(outputHighlighting)}
                         </div>
                       </div>
@@ -533,7 +536,7 @@ const ParaphraseSection = () => {
                             title={tooltipTitle}
                             data-tooltip="Clear all Input"
                             data-tooltip-target="tooltip-default"
-                            class=" w-7 h-7  text-gray-300 z-50 absolute  right-6 bottom-1 hover:text-light_red cursor-pointer"
+                            className=" w-7 h-7  text-gray-300 z-50 absolute  right-6 bottom-1 hover:text-light_red cursor-pointer"
                             onClick={() => {
                               copyToClipboard(outputValueCorrect);
                             }}
@@ -544,7 +547,7 @@ const ParaphraseSection = () => {
                                   initial={{ x: -30, opacity: 0 }}
                                   animate={{ x: 0, opacity: 1 }}
                                   exit={{ x: -30, opacity: 0 }}
-                                  class="w-6 h-6 mr-3 text-light_red"
+                                  className="w-6 h-6 mr-3 text-light_red"
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
                                   fill="currentcolor"
@@ -561,7 +564,7 @@ const ParaphraseSection = () => {
                                       duration: 1,
                                     },
                                   }}
-                                  class=" text-red-600 rounded-xl bg-red-200 px-2 text-xs"
+                                  className=" text-red-600 rounded-xl bg-red-200 px-2 text-xs"
                                 >
                                   Copied!
                                 </motion.span>
@@ -583,7 +586,7 @@ const ParaphraseSection = () => {
                       <textarea
                         readOnly={true}
                         value={outputValueCorrect}
-                        class="resize-none text-body  bg-transparent block absolute z-20 overflow-auto font-semibold outline-none border-none m-0 focus-none p-6  h-full w-full"
+                        className="resize-none text-body  bg-transparent block absolute z-20 overflow-auto font-semibold outline-none border-none m-0 focus-none p-6  h-full w-full"
                         name="paraphraseInput"
                         id="paraphraseInput"
                       ></textarea>
@@ -599,14 +602,14 @@ const ParaphraseSection = () => {
                     inputValue={inputValue}
                     handleChange={handleChange}
                   ></TextArea>
-                  <div class="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
-                    <div class=" h-full relative">
+                  <div className="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
+                    <div className=" h-full relative">
                       {paraphraseLoading && (
-                        <div class="absolute w-5/6 h-3/4 flex flex-col  left-2 top-2">
-                          <div class=" w-3/4 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
+                        <div className="absolute w-5/6 h-3/4 flex flex-col  left-2 top-2">
+                          <div className=" w-3/4 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
 
-                          <div class=" w-1/2 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
-                          <div class=" w-full h-4 animate-pulse mb-3 bg-gray-200 rounded-2xl"></div>
+                          <div className=" w-1/2 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
+                          <div className=" w-full h-4 animate-pulse mb-3 bg-gray-200 rounded-2xl"></div>
                         </div>
                       )}
 
@@ -616,7 +619,7 @@ const ParaphraseSection = () => {
                             title={tooltipTitle}
                             data-tooltip="Clear all Input"
                             data-tooltip-target="tooltip-default"
-                            class=" w-7 h-7  text-gray-300 z-50 absolute right-3 bottom-1 hover:text-gray-800 cursor-pointer"
+                            className=" w-7 h-7  text-gray-300 z-50 absolute right-3 bottom-1 hover:text-gray-800 cursor-pointer"
                             onClick={() => {
                               copyToClipboard(outputValueShorten);
                             }}
@@ -626,7 +629,7 @@ const ParaphraseSection = () => {
                                 initial={{ x: -30, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: -30, opacity: 0 }}
-                                class="w-6 h-6 mr-3"
+                                className="w-6 h-6 mr-3"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="#000"
@@ -651,7 +654,7 @@ const ParaphraseSection = () => {
                       <textarea
                         readOnly={true}
                         value={outputValueShorten}
-                        class="resize-none text-body bg-transparent block absolute z-20 overflow-auto font-semibold outline-none border-none m-0 focus-none p-6  h-full w-full"
+                        className="resize-none text-body bg-transparent block absolute z-20 overflow-auto font-semibold outline-none border-none m-0 focus-none p-6  h-full w-full"
                         name="paraphraseInput"
                         id="paraphraseInput"
                       ></textarea>
@@ -667,14 +670,14 @@ const ParaphraseSection = () => {
                     inputValue={inputValue}
                     handleChange={handleChange}
                   ></TextArea>
-                  <div class="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
-                    <div class=" h-full relative">
+                  <div className="paraphraser-output  border-l border-gray-200 w-1/2 h-full">
+                    <div className=" h-full relative">
                       {paraphraseLoading && (
-                        <div class="absolute w-5/6 h-3/4 flex flex-col  left-2 top-2">
-                          <div class=" w-3/4 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
+                        <div className="absolute w-5/6 h-3/4 flex flex-col  left-2 top-2">
+                          <div className=" w-3/4 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
 
-                          <div class=" w-1/2 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
-                          <div class=" w-full h-4 animate-pulse mb-3 bg-gray-200 rounded-2xl"></div>
+                          <div className=" w-1/2 h-4 mb-3 animate-pulse bg-gray-200 rounded-2xl"></div>
+                          <div className=" w-full h-4 animate-pulse mb-3 bg-gray-200 rounded-2xl"></div>
                         </div>
                       )}
 
@@ -684,7 +687,7 @@ const ParaphraseSection = () => {
                             title={tooltipTitle}
                             data-tooltip="Clear all Input"
                             data-tooltip-target="tooltip-default"
-                            class=" w-7 h-7  text-gray-300 z-50 absolute right-3 bottom-1 hover:text-gray-800 cursor-pointer"
+                            className=" w-7 h-7  text-gray-300 z-50 absolute right-3 bottom-1 hover:text-gray-800 cursor-pointer"
                             onClick={() => {
                               copyToClipboard(outputValueTranslate);
                             }}
@@ -694,7 +697,7 @@ const ParaphraseSection = () => {
                                 initial={{ x: -30, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: -30, opacity: 0 }}
-                                class="w-6 h-6 mr-3"
+                                className="w-6 h-6 mr-3"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="#000"
@@ -719,7 +722,7 @@ const ParaphraseSection = () => {
                       <textarea
                         readOnly={true}
                         value={outputValueTranslate}
-                        class="resize-none text-body bg-transparent block absolute z-20 overflow-auto font-semibold outline-none border-none m-0 focus-none p-6  h-full w-full"
+                        className="resize-none text-body bg-transparent block absolute z-20 overflow-auto font-semibold outline-none border-none m-0 focus-none p-6  h-full w-full"
                         name="paraphraseInput"
                         id="paraphraseInput"
                       ></textarea>
@@ -731,23 +734,25 @@ const ParaphraseSection = () => {
               )}
             </div>
           </div>
-          <div class="paraphraser-button w-1/2 flex flex-col justify-between   items-end ">
-            <div class="flex justify-end w-full"></div>
-            <div class="flex justify-between items-end w-full ">
-              <span class="text-sm text-gray-400 ml-4">{charCount}/250</span>
+          <div className="paraphraser-button w-1/2 flex flex-col justify-between   items-end ">
+            <div className="flex justify-end w-full"></div>
+            <div className="flex justify-between items-end w-full ">
+              <span className="text-sm text-gray-400 ml-4">
+                {charCount}/250
+              </span>
               <button
                 onClick={handleParaphrase}
-                class=" md:px-4 md:py-2 text-xs md:text-sm p-1 bg-light_red mr-4 mt-2 flex items-center justify-between hover:bg-red-500 rounded-md"
+                className=" md:px-4 md:py-2 text-xs md:text-sm p-1 bg-light_red mr-4 mt-2 flex items-center justify-between hover:bg-red-500 rounded-md"
               >
                 {paraphraseLoading && (
                   <svg
-                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
                     <circle
-                      class="opacity-25"
+                      className="opacity-25"
                       cx="12"
                       cy="12"
                       r="10"
@@ -755,7 +760,7 @@ const ParaphraseSection = () => {
                       stroke-width="4"
                     ></circle>
                     <path
-                      class="opacity-75"
+                      className="opacity-75"
                       fill="currentColor"
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
@@ -764,7 +769,7 @@ const ParaphraseSection = () => {
 
                 {!paraphraseLoading && (
                   <svg
-                    class="w-6 mr-2"
+                    className="w-6 mr-2"
                     xmlns="http://www.w3.org/2000/svg"
                     enable-background="new 0 0 24 24"
                     viewBox="0 0 24 24"

@@ -30,23 +30,23 @@ const DropdownButton = ({
 
   return (
     <div>
-      <div class=" w-40  max-w-xs mr-4 ">
-        <div class="max-w-xs  mx-auto space-y-6">
-          <div class="dropdown-menu">
-            <div class="bg-white border border-gray-200 rounded-lg shadow-md  flex items-center px-2 py-1 cursor-pointer">
+      <div className=" w-40  max-w-xs mr-4 ">
+        <div className="max-w-xs  mx-auto space-y-6">
+          <div className="dropdown-menu">
+            <div className="bg-white border border-gray-200 rounded-lg shadow-md  flex items-center px-2 py-1 cursor-pointer">
               <input
                 type="text"
                 placeholder={placeholder}
                 value={TranslatorInput === "" ? wordEntered : TranslatorInput}
-                class=" bg-white text-base placeholder-gray-400 outline-none w-full h-full flex-1"
+                className=" bg-white text-base placeholder-gray-400 outline-none w-full h-full flex-1"
                 onChange={handleFilter}
               />
               <div
                 onClick={() => setCollapsed(!collapsed)}
-                class=" pl-6 pr-2 py-3"
+                className=" pl-6 pr-2 py-3"
               >
                 <svg
-                  class={
+                  className={
                     collapsed
                       ? "transform rotate-0 transition all ease-in-out duration-300"
                       : "transform -rotate-180 transition all ease-in-out duration-300"
@@ -67,10 +67,10 @@ const DropdownButton = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  class="bg-white border border-gray-200 rounded-lg shadow-xl z-40  px-4 absolute mt-8"
+                  className="bg-white border border-gray-200 rounded-lg shadow-xl z-40  px-4 absolute mt-8"
                 >
                   <svg
-                    class="absolute bottom-full text-gray-200 bg-white right-4"
+                    className="absolute bottom-full text-gray-200 bg-white right-4"
                     width="30"
                     height="20"
                     viewBox="0 0 30 20"
@@ -91,10 +91,10 @@ const DropdownButton = ({
                           setTranslatorInput(language.language);
                           setCollapsed(true);
                         }}
-                        class="py-4 px-3 flex cursor-pointer w-full  items-center rounded-lg hover:text-light_red transition all ease-in-out"
+                        className="py-4 px-3 flex cursor-pointer w-full  items-center rounded-lg hover:text-light_red transition all ease-in-out"
                       >
-                        <a class="flex-1">
-                          <div class="  text-base">{language.language}</div>
+                        <a className="flex-1">
+                          <div className="  text-base">{language.language}</div>
                         </a>
                         <div>
                           <svg
