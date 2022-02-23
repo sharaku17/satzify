@@ -80,12 +80,10 @@ const ParaphraseSection = () => {
       }
     );
     const result = await res.json();
-    console.log(result);
     return result[0]["generated_text"];
   }
 
   async function query_corrector(data) {
-    console.log(JSON.stringify(data));
     const res = await fetch(
       "https://api.ai21.com/studio/v1/j1-large/complete",
       {
@@ -97,9 +95,7 @@ const ParaphraseSection = () => {
         method: "POST",
       }
     );
-    console.log(process.env.NEXT_PUBLIC_A21_API);
     const result = await res.json();
-    console.log(result);
     if (result.completions.length > 1) {
       let res = [];
       result.completions.map((data) => {
@@ -131,7 +127,7 @@ const ParaphraseSection = () => {
         free_api: true,
         text: data,
         target_lang: out_lang.toUpperCase(),
-        auth_key: DEEPL_API,
+        auth_key: NEXT_LOCAL_DEEPL_API,
       });
 
       return res.data.translations[0].text;
@@ -141,7 +137,7 @@ const ParaphraseSection = () => {
         text: data,
         source_lang: in_lang.toUpperCase(),
         target_lang: out_lang.toUpperCase(),
-        auth_key: DEEPL_API,
+        auth_key: NEXT_LOCAL_DEEPL_API,
       });
 
       return res.data.translations[0].text;
@@ -188,7 +184,6 @@ const ParaphraseSection = () => {
 
       query_corrector(data).then((generated_text) => {
         setOutputValueParaphrase(generated_text);
-        console.log(outputValueParaphrase);
         setParaphraseLoading(false);
         let outputArray = [];
 
