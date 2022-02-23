@@ -127,7 +127,7 @@ const ParaphraseSection = () => {
         free_api: true,
         text: data,
         target_lang: out_lang.toUpperCase(),
-        auth_key: NEXT_PUBLIC_DEEPL_API,
+        auth_key: process.env.NEXT_PUBLIC_DEEPL_API,
       });
 
       return res.data.translations[0].text;
@@ -137,7 +137,7 @@ const ParaphraseSection = () => {
         text: data,
         source_lang: in_lang.toUpperCase(),
         target_lang: out_lang.toUpperCase(),
-        auth_key: NEXT_PUBLIC_DEEPL_API,
+        auth_key: process.env.NEXT_PUBLIC_DEEPL_API,
       });
 
       return res.data.translations[0].text;
