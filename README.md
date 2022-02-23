@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Visit the live page
+
+[Click here](https://satzify.vercel.app)
+
+Please note that this App is not finished, it may contain buggy visuals in different screen sizes as well as other bugs that will be fixed in the future.
+
 ## Getting Started
 
 First, run the development server:
